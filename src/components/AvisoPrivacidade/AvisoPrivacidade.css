@@ -1,0 +1,5 @@
+.shield { position: relative; display: grid; place-items: center; border-radius: 50%; }
+.security { min-height: 60px; text-align: left; display: flex; align-items: center; gap: 12px; background: #e7f1ff; border-radius: 8px; padding: 10px 14px; color: #004885; font-size: 11px; }
+.security p { font-size: 10px; color: #4f5f6f; line-height: 13px; margin-top: 3px; }
+.shield { background: var(--action); color: white; width: 42px; height: 42px; flex: none; font-size: 22px; }
+.shield .icon { width: 27px; height: 27px; }

@@ -1,0 +1,5 @@
+.field { margin-bottom: 12px; }
+.field label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 5px; }
+.field input { width: 100%; min-height: 44px; border: 1px solid #cfd8e3; border-radius: 6px; background: white; color: inherit; padding: 8px 12px; font-size: 16px; }
+.field [aria-invalid="true"] { border-color: #a11e1e; }
+.field small { color: #a11e1e; }

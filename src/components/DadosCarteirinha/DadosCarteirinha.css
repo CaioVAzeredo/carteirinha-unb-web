@@ -1,0 +1,4 @@
+.details { margin-top: -35px; margin-bottom: 30px; font-size: 14px; }
+.details div { margin-bottom: 5px; }
+.details dt { display: inline; font-weight: 700; }
+.details dd { display: inline; color: #161616; margin: 0; }

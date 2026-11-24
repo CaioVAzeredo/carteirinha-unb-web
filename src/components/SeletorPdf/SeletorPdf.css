@@ -1,0 +1,6 @@
+.picker { width: 100%; border: 1.5px dashed var(--action); border-radius: 8px; background: white; padding: 19px 8px; display: grid; justify-items: center; margin-bottom: 27px; color: #004885; font-size: 14px; }
+.picker > span:last-child { font-size: 10px; color: #566474; margin-top: 6px; font-weight: 600; }
+.file-circle { position: relative; display: grid; place-items: center; border-radius: 50%; }
+.file-circle { width: 49px; height: 49px; background: #dbe9ff; margin-bottom: 12px; }
+.file-add { position: absolute; bottom: 8px; right: 7px; background: var(--action); color: white; border: 1px solid white; border-radius: 50%; width: 17px; height: 17px; line-height: 14px; }
+.file-circle .icon { width: 31px; height: 31px; color: var(--action); }

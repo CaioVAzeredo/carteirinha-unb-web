@@ -1,0 +1,8 @@
+.menu-dialog { margin: auto auto 0; width: min(100%, 480px); max-width: none; border-radius: 16px 16px 0 0; }
+.menu-dialog .dialog-content { padding: 10px 0 0; }
+.menu-dialog h2 { padding: 4px 26px 16px; }
+.handle { width: 42px; height: 4px; border-radius: 2px; background: #9c9c9c; margin: 0 auto 8px; }
+.menu-dialog button { display: flex; align-items: center; gap: 22px; width: 100%; min-height: 54px; border: 0; border-top: 1px solid #ececec; background: white; text-align: left; color: inherit; padding: 0 27px; font-size: 14px; }
+.menu-dialog button span { width: 24px; text-align: center; font-size: 24px; color: #c72c2c; }
+.menu-dialog button:nth-of-type(3) span { color: #1e71b8; }
+.menu-dialog button:last-child span { color: #666; }
