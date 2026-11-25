@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CabecalhoImportacao from './components/CabecalhoImportacao';
+import Dialog from './components/Modal';
 import Notificacao from './components/Notificacao';
 import OpcoesCarteirinha from './components/OpcoesCarteirinha';
 import PaginaCarteirinha from './pages/Carteirinha';
@@ -9,7 +10,11 @@ import { changes, loadStoredCard, removeCard, saveCard } from './service/carteir
 import { chaves, type Campos, type Rascunho } from './types/carteirinha';
 import './App.css';
 
-type Modal = 'menu' | 'qr' | 'about' | 'remove';
+type Modal = 'menu' | 'qr' | 'about' | 'remove' | 'repository' | 'install';
+
+interface InstallPromptEvent extends Event {
+  prompt(): Promise<unknown>;
+}
 
 export default function App() {
   const [stored, setStored] = useState<Awaited<ReturnType<typeof loadStoredCard>>>(null);
@@ -23,6 +28,11 @@ export default function App() {
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
   const [notificacao, setNotificacao] = useState('');
+  const [installed, setInstalled] = useState(() =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true,
+  );
+  const installPrompt = useRef<InstallPromptEvent | null>(null);
   const fecharNotificacao = useCallback(() => setNotificacao(''), []);
   const attempt = useRef<AbortController | null>(null);
   const writing = useRef(false);
@@ -65,6 +75,35 @@ export default function App() {
   const card = stored?.card;
   const screen = !ready ? 'loading' : loadFailed ? 'error' : draft ? 'review' : importing || !stored || stored.needsReimport ? 'import' : 'card';
   useEffect(() => { document.querySelector<HTMLElement>('[data-focus]')?.focus(); }, [screen]);
+
+  useEffect(() => {
+    const capturePrompt = (event: Event) => {
+      event.preventDefault();
+      installPrompt.current = event as InstallPromptEvent;
+    };
+    const handleInstalled = () => {
+      installPrompt.current = null;
+      setInstalled(true);
+      setModal(current => current === 'install' ? null : current);
+    };
+    window.addEventListener('beforeinstallprompt', capturePrompt);
+    window.addEventListener('appinstalled', handleInstalled);
+    return () => {
+      window.removeEventListener('beforeinstallprompt', capturePrompt);
+      window.removeEventListener('appinstalled', handleInstalled);
+    };
+  }, []);
+
+  function installApp() {
+    const prompt = installPrompt.current;
+    if (!prompt) {
+      setModal('install');
+      return;
+    }
+    installPrompt.current = null;
+    closeModal();
+    void prompt.prompt().catch(() => setModal('install'));
+  }
 
   function cancelImport() {
     attempt.current?.abort();
@@ -162,7 +201,8 @@ export default function App() {
         </div>
       )}
       {screen === 'import' && (
-        <Importacao processing={processing} hasCard={!!card} onSelect={file => void select(file)} cancelImport={cancelImport} />
+        <Importacao processing={processing} hasCard={!!card} onSelect={file => void select(file)}
+          cancelImport={cancelImport} onInstall={installed ? undefined : installApp} />
       )}
       {screen === 'review' && draft && (
         <Revisao draft={draft} busy={busy} onChange={setDraft} onSave={() => void save()} cancel={cancelImport} />
@@ -174,11 +214,21 @@ export default function App() {
         </>
       )}
       {stored && (screen === 'card' || modal === 'remove') && (
-        <OpcoesCarteirinha modal={modal}
+        <OpcoesCarteirinha modal={modal === 'install' ? null : modal}
           busy={busy} error={error} closeModal={closeModal}
           onImport={() => { closeModal(); setImporting(true); setStatus(''); }}
           onRequestRemove={() => requestRemove(stored.version)}
-          onAbout={() => setModal('about')} onRemove={() => void remove()} />
+          onAbout={() => setModal('about')} onRepository={() => setModal('repository')}
+          onRemove={() => void remove()} onInstall={installed ? undefined : installApp} />
+      )}
+      {modal === 'install' && (
+        <Dialog title="Adicionar à tela inicial" close={closeModal}>
+          <h2>Adicionar à tela inicial</h2>
+          <p><strong>Android (Chrome)</strong><br />No menu do navegador, toque em <strong>Instalar e criar atalho</strong> ou <strong>Adicionar à tela inicial</strong>. Em seguida, escolha <strong>Instalar</strong>.</p>
+          <p><strong>iPhone (Safari)</strong><br />Toque em <strong>Compartilhar</strong> e em <strong>Adicionar à Tela de Início</strong>. Se aparecer a opção <strong>Abrir como App da Web</strong>, ative-a e toque em <strong>Adicionar</strong>.</p>
+          <p>Abra o ícone <strong>Identidade Estudantil</strong> na tela inicial para usar o app sem a barra do navegador.</p>
+          <button className="primary" onClick={closeModal}>Fechar</button>
+        </Dialog>
       )}
       {error && modal !== 'remove' && <p className="feedback error" role="alert">{error}</p>}
       {notificacao && (

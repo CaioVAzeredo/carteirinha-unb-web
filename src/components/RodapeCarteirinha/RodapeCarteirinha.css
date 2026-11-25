@@ -1,2 +1,2 @@
-.card-footer { width: 90%; display: flex; justify-content: space-between; margin: 10px auto 22px; }
+.card-footer { width: 90%; display: flex; justify-content: center; margin: 10px auto 22px; }
 .card-footer img { width: 48%; height: 90px; object-fit: contain; }

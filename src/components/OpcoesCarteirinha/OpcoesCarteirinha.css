@@ -3,6 +3,31 @@
 .menu-dialog h2 { padding: 4px 26px 16px; }
 .handle { width: 42px; height: 4px; border-radius: 2px; background: #9c9c9c; margin: 0 auto 8px; }
 .menu-dialog button { display: flex; align-items: center; gap: 22px; width: 100%; min-height: 54px; border: 0; border-top: 1px solid #ececec; background: white; text-align: left; color: inherit; padding: 0 27px; font-size: 14px; }
-.menu-dialog button span { width: 24px; text-align: center; font-size: 24px; color: #c72c2c; }
-.menu-dialog button:nth-of-type(3) span { color: #1e71b8; }
-.menu-dialog button:last-child span { color: #666; }
+.menu-dialog .icon { width: 24px; text-align: center; font-size: 24px; }
+.menu-dialog button:nth-of-type(-n+2) .icon { color: #c72c2c; }
+.menu-dialog button:nth-of-type(3) .icon { color: #1e71b8; }
+.menu-dialog button:last-child .icon { color: #666; }
+.repository-action { display: grid; place-items: center; flex: 1; text-align: center; text-decoration: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-dialog {
+    transform: translateY(100%);
+    transition: transform 220ms ease, display 220ms allow-discrete, overlay 220ms allow-discrete;
+  }
+
+  .menu-dialog[open] { transform: translateY(0); }
+
+  .menu-dialog::backdrop {
+    background: transparent;
+    transition: background-color 220ms ease, display 220ms allow-discrete, overlay 220ms allow-discrete;
+  }
+
+  .menu-dialog[open]::backdrop { background: #0007; }
+
+  .menu-dialog:not([open]), .menu-dialog:not([open])::backdrop { pointer-events: none; }
+
+  @starting-style {
+    .menu-dialog[open] { transform: translateY(100%); }
+    .menu-dialog[open]::backdrop { background: transparent; }
+  }
+}

@@ -1,15 +1,16 @@
-import { arrowBack, close } from 'ionicons/icons';
+import { addCircleOutline, arrowBack, close } from 'ionicons/icons';
 import AvisoPrivacidade from '../../components/AvisoPrivacidade';
 import Icone from '../../components/Icone';
 import SeletorPdf from '../../components/SeletorPdf';
 import iconePdf from '../../assets/img/icone-pdf.png';
 import './Importacao.css';
 
-export default function Importacao({ processing, hasCard, onSelect, cancelImport }: {
+export default function Importacao({ processing, hasCard, onSelect, cancelImport, onInstall }: {
   processing: boolean;
   hasCard: boolean;
   onSelect: (file: File) => void;
   cancelImport: () => void;
+  onInstall?: () => void;
 }) {
   return (
     <section className="import-content">
@@ -24,6 +25,12 @@ export default function Importacao({ processing, hasCard, onSelect, cancelImport
         </button>
       )}
       <AvisoPrivacidade />
+      {onInstall && (
+        <button className="import-return install-option" type="button" onClick={onInstall}>
+          <Icone src={addCircleOutline} />
+          Adicionar à tela inicial
+        </button>
+      )}
     </section>
   );
 }

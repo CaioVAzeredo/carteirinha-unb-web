@@ -1,5 +1,9 @@
+import { createElement } from 'react';
+import { defineCustomElement } from 'ionicons/components/ion-icon.js';
 import './Icone.css';
 
+defineCustomElement();
+
 export default function Icone({ src }: { src: string }) {
-  return <span className="icon" aria-hidden="true" style={{ maskImage: `url("${src}")` }} />;
+  return createElement('ion-icon', { src, class: 'icon', 'aria-hidden': 'true' });
 }

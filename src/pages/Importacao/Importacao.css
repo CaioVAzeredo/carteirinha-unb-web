@@ -35,6 +35,10 @@
   background: #dbeaff;
 }
 
+.import-return.install-option {
+  margin: 16px 0 0;
+}
+
 @keyframes entrada-botao-voltar {
   from {
     opacity: 0;

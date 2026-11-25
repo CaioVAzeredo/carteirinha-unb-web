@@ -13,6 +13,21 @@ Execute os comandos na raiz do repositório. O build estático fica em `dist/` e
 
 A importação usa a primeira página do PDF e as coordenadas de recorte do aplicativo mobile. O navegador mantém uma carteirinha ativa no Cache Storage, com os campos revisados em texto e a foto e o QR Code criptografados com AES-GCM. O PDF é usado durante a importação e fica fora do cache. A chave AES é gerada no navegador, não exportável e armazenada no IndexedDB. A abertura é automática no mesmo perfil e origem. Registros da versão que exigia frase-senha precisam ser substituídos por uma nova importação. Abas da mesma origem compartilham o registro. Limpar os dados do site remove a carteirinha.
 
+## Instalação no celular
+
+Abra a versão publicada por HTTPS e toque em **Adicionar à tela inicial** na tela de importação ou no menu da carteirinha. Se aparecer a confirmação do navegador, conclua a instalação por ela. Também é possível instalar pelo menu do navegador:
+
+- **Android (Chrome)** · Menu do navegador → **Instalar e criar atalho** ou **Adicionar à tela inicial** → **Instalar**.
+- **iPhone (Safari)** · **Compartilhar** → **Adicionar à Tela de Início**. Se aparecer **Abrir como App da Web**, ative a opção antes de tocar em **Adicionar**.
+
+Toque no ícone **Identidade Estudantil** na tela inicial para abrir o app sem a barra de endereço do navegador. Se o app abrir na tela de importação, importe o PDF nele para salvar a carteirinha nesse ambiente.
+
+## Acesso ao código-fonte
+
+Na tela da carteirinha, abra o menu dos três pontinhos e selecione **Repositório**. Na janela que aparece, selecione **Abrir no GitHub** para acessar o código-fonte em uma nova aba. [Repositório no GitHub](https://github.com/CaioVAzeredo/carteirinha-unb-web)
+
+O aplicativo foi desenvolvido por Caio de Azeredo. O perfil também está disponível em **Sobre o aplicativo**. [GitHub de Caio de Azeredo](https://github.com/CaioVAzeredo)
+
 ## Estrutura do código
 
 - `src/main.tsx` monta o React e carrega os estilos globais.
