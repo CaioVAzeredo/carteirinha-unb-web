@@ -13,6 +13,12 @@ Execute os comandos na raiz do repositório. O build estático fica em `dist/` e
 
 A importação usa a primeira página do PDF e as coordenadas de recorte do aplicativo mobile. O navegador mantém uma carteirinha ativa no Cache Storage, com os campos revisados em texto e a foto e o QR Code criptografados com AES-GCM. O PDF é usado durante a importação e fica fora do cache. A chave AES é gerada no navegador, não exportável e armazenada no IndexedDB. A abertura é automática no mesmo perfil e origem. Registros da versão que exigia frase-senha precisam ser substituídos por uma nova importação. Abas da mesma origem compartilham o registro. Limpar os dados do site remove a carteirinha.
 
+## Uso offline
+
+Abra a versão publicada por HTTPS uma vez com internet e aguarde a página carregar. Depois que o navegador baixar os recursos, o app pode reabrir sem conexão, exibir a carteirinha salva e importar um PDF disponível no aparelho. A instalação na tela inicial é opcional.
+
+O service worker é gerado no build de produção e usa um cache separado para os arquivos do site, incluindo o worker do PDF.js. Para testar localmente, use `npm run build` e `npm run preview`. O servidor de desenvolvimento não instala o service worker.
+
 ## Instalação no celular
 
 Abra a versão publicada por HTTPS e toque em **Adicionar à tela inicial** na tela de importação ou no menu da carteirinha. Se aparecer a confirmação do navegador, conclua a instalação por ela. Também é possível instalar pelo menu do navegador:
