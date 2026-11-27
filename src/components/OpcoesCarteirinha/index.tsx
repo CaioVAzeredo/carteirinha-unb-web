@@ -1,6 +1,6 @@
 import {
   addCircleOutline as iconInstall,
-  documentAttachOutline as iconImport,
+  createOutline as iconEdit,
   trashOutline as iconTrash,
   informationCircle as iconInfo,
   logoGithub as iconGithub,
@@ -11,14 +11,14 @@ import Dialog from '../Modal';
 import './OpcoesCarteirinha.css';
 
 export default function OpcoesCarteirinha({
-  modal, busy, error, closeModal, onImport, onRequestRemove, onAbout, onRepository, onRemove, onInstall,
+  modal, busy, error, closeModal, onEdit, onRequestRemove, onAbout, onRepository, onRemove, onInstall,
 }: {
   modal: 'menu' | 'about' | 'remove' | 'repository' | 'qr' | null;
   busy: boolean;
   error: string;
   closeModal: () => void;
-  onImport: () => void;
-  onRequestRemove: () => void;
+  onEdit?: () => void;
+  onRequestRemove?: () => void;
   onAbout: () => void;
   onRepository: () => void;
   onRemove: () => void;
@@ -26,14 +26,14 @@ export default function OpcoesCarteirinha({
 }) {
   return (
     <>
-      <Dialog title="Carteirinha" className="menu-dialog" open={modal === 'menu'} close={closeModal}>
+      <Dialog title="Opções" className="menu-dialog" open={modal === 'menu'} close={closeModal}>
         <div className="handle" aria-hidden="true" />
-        <h2>Carteirinha</h2>
-        <button onClick={onImport}><Icon src={iconImport} />Importar novo PDF</button>
-        <button onClick={onRequestRemove}><Icon src={iconTrash} />Remover carteirinha</button>
+        <h2>Opções</h2>
+        {onEdit && <button onClick={onEdit}><Icon src={iconEdit} />Editar dados</button>}
         <button onClick={onAbout}><Icon src={iconInfo} />Sobre o aplicativo</button>
         <button onClick={onRepository}><Icon src={iconGithub} />Repositório</button>
         {onInstall && <button onClick={onInstall}><Icon src={iconInstall} />Adicionar à tela inicial</button>}
+        {onRequestRemove && <button className="menu-remove" onClick={onRequestRemove}><Icon src={iconTrash} />Remover carteirinha</button>}
         <button onClick={closeModal}><Icon src={iconClose} />Cancelar</button>
       </Dialog>
       {modal === 'repository' && (

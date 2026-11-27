@@ -4,8 +4,8 @@ import CampoRevisao from '../../components/CampoRevisao';
 import PreviaImportacao from '../../components/PreviaImportacao';
 import './Revisao.css';
 
-export default function Revisao({ draft, busy, onChange, onSave, cancel }: {
-  draft: Rascunho; busy: boolean; onChange: (draft: Rascunho) => void;
+export default function Revisao({ draft, editando, busy, onChange, onSave, cancel }: {
+  draft: Rascunho; editando: boolean; busy: boolean; onChange: (draft: Rascunho) => void;
   onSave: () => void; cancel: () => void;
 }) {
   const [submitted, setSubmitted] = useState(false);
@@ -24,9 +24,9 @@ export default function Revisao({ draft, busy, onChange, onSave, cancel }: {
 
   return (
     <form className="review" onSubmit={submit} autoComplete="off">
-      <h1 tabIndex={-1} data-focus>Revise os dados</h1>
+      <h1 tabIndex={-1} data-focus>{editando ? 'Editar dados da carteirinha' : 'Revise os dados'}</h1>
       <PreviaImportacao foto={draft.foto} qrCode={draft.qrCode} />
-      {missing.length > 0 && <p className="notice">Preencha os campos que o PDF não forneceu: {missing.join(', ')}.</p>}
+      {!editando && missing.length > 0 && <p className="notice">Preencha os campos que o PDF não forneceu: {missing.join(', ')}.</p>}
       <fieldset disabled={busy}>
         {chaves.map(key => (
           <CampoRevisao
@@ -41,7 +41,7 @@ export default function Revisao({ draft, busy, onChange, onSave, cancel }: {
         ))}
         <div className="actions">
           <button type="button" onClick={cancel}>× &nbsp; Cancelar</button>
-          <button className="primary" type="submit">{busy ? 'Salvando…' : '✓  Confirmar'}</button>
+          <button className="primary" type="submit">{busy ? 'Salvando…' : editando ? 'Salvar alterações' : '✓  Confirmar'}</button>
         </div>
       </fieldset>
     </form>

@@ -81,12 +81,19 @@ async function encryptedResponse(card: Carteirinha): Promise<Response> {
   return new Response(data);
 }
 
-export async function saveCard(card: Carteirinha): Promise<void> {
+export async function saveCard(card: Carteirinha, expectedVersion?: string): Promise<boolean> {
   const response = await encryptedResponse(card);
-  await navigator.locks.request(cacheName, async () => {
-    await (await caches.open(cacheName)).put(key, response);
+  const saved = await navigator.locks.request(cacheName, async () => {
+    const cache = await caches.open(cacheName);
+    if (expectedVersion !== undefined) {
+      const current = await readRecord(cache);
+      if (current?.fields.versao !== expectedVersion) return false;
+    }
+    await cache.put(key, response);
+    return true;
   });
-  changes?.postMessage('atualizada');
+  if (saved) changes?.postMessage('atualizada');
+  return saved;
 }
 
 export async function removeCard(version: string): Promise<boolean> {

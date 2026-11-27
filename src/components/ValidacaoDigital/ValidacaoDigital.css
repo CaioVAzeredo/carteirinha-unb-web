@@ -8,3 +8,23 @@
 .qr-dialog .dialog-content, .qr-dialog button { padding: 0; border: 0; }
 .qr-dialog button { display: block; background: transparent; }
 .qr-dialog .qr-ampliado { width: min(330px, calc(100dvh - 32px), calc(100vw - 32px)); aspect-ratio: 1; }
+
+@keyframes ampliar-qr {
+  from { opacity: 0; transform: scale(.88); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes escurecer-fundo-qr {
+  from { background: transparent; }
+  to { background: #000c; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .qr-dialog[open] .dialog-content {
+    animation: ampliar-qr 280ms cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  .qr-dialog[open]::backdrop {
+    animation: escurecer-fundo-qr 220ms ease-out both;
+  }
+}

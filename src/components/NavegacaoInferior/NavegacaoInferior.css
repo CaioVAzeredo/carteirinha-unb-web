@@ -1,0 +1,37 @@
+.navegacao-inferior {
+  position: fixed;
+  z-index: 5;
+  inset-inline: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 480px);
+  margin-inline: auto;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #fff;
+  border-top: 1px solid #dce5ee;
+  box-shadow: 0 -4px 18px #021f3b12;
+}
+
+.navegacao-inferior button {
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #465b70;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.navegacao-inferior button[aria-current],
+.navegacao-inferior button[aria-expanded="true"] {
+  color: var(--action);
+  background: #e8f2fc;
+}
+
+.navegacao-inferior button:focus-visible { outline-offset: -4px; }

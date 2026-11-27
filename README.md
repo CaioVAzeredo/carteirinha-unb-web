@@ -21,7 +21,7 @@ O service worker é gerado no build de produção e usa um cache separado para o
 
 ## Instalação no celular
 
-Abra a versão publicada por HTTPS e toque em **Adicionar à tela inicial** na tela de importação ou no menu da carteirinha. Se aparecer a confirmação do navegador, conclua a instalação por ela. Também é possível instalar pelo menu do navegador:
+Abra a versão publicada por HTTPS e toque em **Adicionar à tela inicial** em **Opções**, na barra inferior. Se aparecer a confirmação do navegador, conclua a instalação por ela. Também é possível instalar pelo menu do navegador:
 
 - **Android (Chrome)** · Menu do navegador → **Instalar e criar atalho** ou **Adicionar à tela inicial** → **Instalar**.
 - **iPhone (Safari)** · **Compartilhar** → **Adicionar à Tela de Início**. Se aparecer **Abrir como App da Web**, ative a opção antes de tocar em **Adicionar**.
@@ -30,7 +30,7 @@ Toque no ícone **Identidade Estudantil** na tela inicial para abrir o app sem a
 
 ## Acesso ao código-fonte
 
-Na tela da carteirinha, abra o menu dos três pontinhos e selecione **Repositório**. Na janela que aparece, selecione **Abrir no GitHub** para acessar o código-fonte em uma nova aba. [Repositório no GitHub](https://github.com/CaioVAzeredo/carteirinha-unb-web)
+Na tela da carteirinha, abra **Opções** na barra inferior e selecione **Repositório**. Na janela que aparece, selecione **Abrir no GitHub** para acessar o código-fonte em uma nova aba. [Repositório no GitHub](https://github.com/CaioVAzeredo/carteirinha-unb-web)
 
 O aplicativo foi desenvolvido por Caio de Azeredo. O perfil também está disponível em **Sobre o aplicativo**. [GitHub de Caio de Azeredo](https://github.com/CaioVAzeredo)
 

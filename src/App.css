@@ -2,3 +2,5 @@
 .band { background: var(--blue); border-bottom: 70px solid var(--green); padding-top: 80px; min-height: 260px; }
 .feedback { margin: 16px 22px; }
 .feedback button { margin-top: 10px; }
+
+.app.com-navegacao { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }

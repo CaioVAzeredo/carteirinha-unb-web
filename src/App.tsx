@@ -2,6 +2,7 @@ import CarregamentoCarteirinha from './components/CarregamentoCarteirinha';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CabecalhoImportacao from './components/CabecalhoImportacao';
 import Dialog from './components/Modal';
+import NavegacaoInferior from './components/NavegacaoInferior';
 import Notificacao from './components/Notificacao';
 import OpcoesCarteirinha from './components/OpcoesCarteirinha';
 import PaginaCarteirinha from './pages/Carteirinha';
@@ -22,6 +23,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [edicao, setEdicao] = useState<{ versao: string; criadaEm: string } | null>(null);
   const [draft, setDraft] = useState<Rascunho | null>(null);
   const [processing, setProcessing] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -35,6 +37,7 @@ export default function App() {
   );
   const installPrompt = useRef<InstallPromptEvent | null>(null);
   const fecharNotificacao = useCallback(() => setNotificacao(''), []);
+  const inputPdf = useRef<HTMLInputElement>(null);
   const attempt = useRef<AbortController | null>(null);
   const writing = useRef(false);
   const versionToRemove = useRef<string | null>(null);
@@ -111,15 +114,21 @@ export default function App() {
     attempt.current = null;
     setProcessing(false);
     setDraft(null);
+    setEdicao(null);
     setImporting(false);
     setError('');
     setStatus('');
+  }
+
+  function escolherPdf() {
+    if (!attempt.current) inputPdf.current?.click();
   }
 
   async function select(file: File) {
     if (attempt.current) return;
     const controller = new AbortController();
     attempt.current = controller;
+    setImporting(true);
     setProcessing(true);
     setError('');
     setStatus('');
@@ -141,6 +150,14 @@ export default function App() {
     }
   }
 
+  function editarDados() {
+    if (!card || attempt.current) return;
+    closeModal();
+    setStatus('');
+    setEdicao({ versao: card.versao, criadaEm: card.criadaEm });
+    setDraft({ ...card, validade: card.validade ?? '' });
+  }
+
   async function save() {
     if (!draft || writing.current) return;
     writing.current = true;
@@ -148,12 +165,16 @@ export default function App() {
     setError('');
     try {
       const fields = Object.fromEntries(chaves.map(key => [key, draft[key].trim()])) as Campos;
-      const saved = { ...draft, ...fields, criadaEm: new Date().toISOString(), versao: crypto.randomUUID() };
-      await saveCard(saved);
+      const saved = { ...draft, ...fields, criadaEm: edicao?.criadaEm ?? new Date().toISOString(), versao: crypto.randomUUID() };
+      if (!await saveCard(saved, edicao?.versao)) {
+        setError('A carteirinha mudou em outra aba. Cancele a edição e abra os dados atualizados.');
+        return;
+      }
       await refresh();
       setDraft(null);
+      setEdicao(null);
       setImporting(false);
-      setNotificacao('Sua carteirinha foi salva com sucesso.');
+      setNotificacao(edicao ? 'Dados da carteirinha atualizados.' : 'Sua carteirinha foi salva com sucesso.');
     } catch {
       setError('Não foi possível salvar a carteirinha no navegador. Tente novamente.');
     } finally {
@@ -190,8 +211,15 @@ export default function App() {
 
   function closeModal() { setModal(null); setError(''); }
 
+  const mostrarNavegacao = screen === 'card' || screen === 'import';
+
   return (
-    <main className={`app screen-${screen}`}>
+    <main className={`app screen-${screen}${mostrarNavegacao ? ' com-navegacao' : ''}`}>
+      <input ref={inputPdf} type="file" accept=".pdf,application/pdf" hidden onChange={event => {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (file) void select(file);
+      }} />
       {screen !== 'card' && <CabecalhoImportacao />}
       {screen === 'loading' && <CarregamentoCarteirinha />}
       {screen === 'error' && <div className="feedback"><p role="alert">Não foi possível acessar a carteirinha no cache do navegador.</p><button className="primary" onClick={() => void refresh()} data-focus>Tentar novamente</button></div>}
@@ -202,25 +230,29 @@ export default function App() {
         </div>
       )}
       {screen === 'import' && (
-        <Importacao processing={processing} hasCard={!!card} onSelect={file => void select(file)}
-          cancelImport={cancelImport} onInstall={installed ? undefined : installApp} />
+        <Importacao processing={processing} hasCard={!!card} onPick={escolherPdf}
+          cancelImport={cancelImport} />
       )}
       {screen === 'review' && draft && (
-        <Revisao draft={draft} busy={busy} onChange={setDraft} onSave={() => void save()} cancel={cancelImport} />
+        <Revisao draft={draft} editando={!!edicao} busy={busy} onChange={setDraft} onSave={() => void save()} cancel={cancelImport} />
       )}
       {screen === 'card' && card && (
         <>
-          <PaginaCarteirinha card={card} openMenu={() => setModal('menu')} expanded={modal === 'qr'}
+          <PaginaCarteirinha card={card} expanded={modal === 'qr'}
             openQr={() => setModal('qr')} closeQr={closeModal} />
         </>
       )}
-      {stored && (screen === 'card' || modal === 'remove') && (
+      {(mostrarNavegacao || modal === 'remove') && (
         <OpcoesCarteirinha modal={modal === 'install' ? null : modal}
           busy={busy} error={error} closeModal={closeModal}
-          onImport={() => { closeModal(); setImporting(true); setStatus(''); }}
-          onRequestRemove={() => requestRemove(stored.version)}
+          onEdit={screen === 'card' && card ? editarDados : undefined}
+          onRequestRemove={card && stored ? () => requestRemove(stored.version) : undefined}
           onAbout={() => setModal('about')} onRepository={() => setModal('repository')}
           onRemove={() => void remove()} onInstall={installed ? undefined : installApp} />
+      )}
+      {mostrarNavegacao && (
+        <NavegacaoInferior tela={screen} menuAberto={modal === 'menu'} processando={processing}
+          abrirCarteirinha={cancelImport} escolherPdf={escolherPdf} abrirOpcoes={() => setModal('menu')} />
       )}
       {modal === 'install' && (
         <Dialog title="Adicionar à tela inicial" close={closeModal}>
