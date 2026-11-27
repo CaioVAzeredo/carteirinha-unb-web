@@ -1,3 +1,4 @@
+import CarregamentoCarteirinha from './components/CarregamentoCarteirinha';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import CabecalhoImportacao from './components/CabecalhoImportacao';
 import Dialog from './components/Modal';
@@ -192,7 +193,7 @@ export default function App() {
   return (
     <main className={`app screen-${screen}`}>
       {screen !== 'card' && <CabecalhoImportacao />}
-      {screen === 'loading' && <p className="feedback" role="status">Carregando carteirinha…</p>}
+      {screen === 'loading' && <CarregamentoCarteirinha />}
       {screen === 'error' && <div className="feedback"><p role="alert">Não foi possível acessar a carteirinha no cache do navegador.</p><button className="primary" onClick={() => void refresh()} data-focus>Tentar novamente</button></div>}
       {screen === 'import' && stored?.needsReimport && (
         <div className="feedback">

@@ -1,3 +1,4 @@
+import Skeleton from '../Skeleton';
 import { useRef } from 'react';
 import { documentText } from 'ionicons/icons';
 import Icone from '../Icone';
@@ -18,7 +19,9 @@ export default function SeletorPdf({ processing, onSelect }: {
           if (file) onSelect(file);
         }} />
       <button className="picker" disabled={processing} onClick={() => fileInput.current?.click()}>
-        <span className="file-circle" aria-hidden="true"><Icone src={documentText} /><span className="file-add">+</span></span>
+        {processing
+          ? <Skeleton className="file-circle file-placeholder" />
+          : <span className="file-circle" aria-hidden="true"><Icone src={documentText} /><span className="file-add">+</span></span>}
         <strong>Selecionar PDF</strong>
         <span>{processing ? 'Processando arquivo…' : 'Toque para escolher o arquivo'}</span>
       </button>

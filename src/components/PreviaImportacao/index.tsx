@@ -1,3 +1,4 @@
+import ImagemCarregavel from '../ImagemCarregavel';
 import useImage from '../../useImage';
 import './PreviaImportacao.css';
 
@@ -8,11 +9,11 @@ export default function PreviaImportacao({ foto, qrCode }: { foto: Blob; qrCode:
   return (
     <div className="media">
       <figure>
-        <img className="preview-photo" src={photo} alt="Foto extraída do PDF" />
+        <ImagemCarregavel className="preview-photo" src={photo} alt="Foto extraída do PDF" />
         <figcaption>Foto</figcaption>
       </figure>
       <figure>
-        <img className="preview-qr" src={qr} alt="QR Code extraído do PDF" />
+        <ImagemCarregavel className="preview-qr" src={qr} alt="QR Code extraído do PDF" />
         <figcaption>QR Code</figcaption>
       </figure>
     </div>

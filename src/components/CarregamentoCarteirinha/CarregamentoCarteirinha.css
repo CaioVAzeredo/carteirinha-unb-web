@@ -1,0 +1,13 @@
+.carregamento-carteirinha { padding-top: 16px; }
+.carregamento-dados { display: grid; gap: 9px; padding: 12px; }
+.carregamento-dados .skeleton { width: 55%; height: 14px; }
+.carregamento-dados .skeleton:nth-child(2) { width: 44%; }
+.carregamento-dados .skeleton:last-child { width: 75%; }
+.carregamento-validacao { display: grid; justify-items: center; margin-top: 30px; }
+.carregamento-validacao .skeleton { width: 46%; height: 18px; }
+.carregamento-validacao .carregamento-qr {
+  width: min(250px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 15px 0 50px;
+}

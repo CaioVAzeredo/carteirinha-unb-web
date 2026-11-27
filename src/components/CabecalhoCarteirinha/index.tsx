@@ -1,3 +1,4 @@
+import ImagemCarregavel from '../ImagemCarregavel';
 import { ellipsisVertical } from 'ionicons/icons';
 import Icone from '../Icone';
 import useImage from '../../useImage';
@@ -15,7 +16,7 @@ export default function CabecalhoCarteirinha({ nome, foto, openMenu }: {
         <Icone src={ellipsisVertical} />
       </button>
       <div className="student">
-        <img src={photo} alt="Foto do estudante" />
+        <ImagemCarregavel className="foto-estudante" src={photo} alt="Foto do estudante" />
         <div>
           <h1 tabIndex={-1} data-focus>{nome}</h1>
           <p>DISCENTE</p>

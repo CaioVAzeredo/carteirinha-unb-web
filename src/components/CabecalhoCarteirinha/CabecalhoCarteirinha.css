@@ -1,8 +1,10 @@
 .band.card-band { position: relative; padding: 80px 20px 15px; border-bottom: 0; background: linear-gradient(var(--blue) 190px, var(--green) 190px); }
 .student { display: flex; gap: 15px; align-items: flex-start; color: white; padding-bottom: 35px; }
-.student img { width: clamp(86px, 33vw, 130px); aspect-ratio: 1; flex: none; border-radius: 50%; border: 3px solid white; object-fit: cover; }
+.student .foto-estudante { width: clamp(86px, 33vw, 130px); aspect-ratio: 1; flex: none; border-radius: 50%; border: 3px solid white; }
 .student div { min-width: 0; margin-top: 10px; overflow-wrap: anywhere; }
 .student h1 { font-size: clamp(22px, 7.5vw, 30px); line-height: 1.15; }
 .student p { font-size: 17px; }
 .menu-trigger { display: grid; place-items: center; position: absolute; top: 22px; right: 12px; width: 44px; height: 44px; border: 0; background: transparent; color: white; font-size: 30px; }
 .menu-trigger .icon { width: 26px; height: 26px; }
+
+.student .foto-estudante img { object-fit: cover; }

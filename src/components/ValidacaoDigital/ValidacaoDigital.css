@@ -1,10 +1,10 @@
 .validation { color: inherit; text-align: center; }
 .validation strong { display: block; margin-bottom: 15px; font-size: 20px; }
-.validation img { width: 250px; aspect-ratio: 1; object-fit: contain; margin: auto; }
+.validation .qr-carteirinha { width: min(250px, 100%); aspect-ratio: 1; margin: auto; }
 .validity { display: block; margin-top: 50px; font-weight: 700; font-size: 15px; }
 .validity span { font-weight: 400; }
 .qr-dialog { background: transparent; }
 .qr-dialog::backdrop { background: #000c; }
 .qr-dialog .dialog-content, .qr-dialog button { padding: 0; border: 0; }
 .qr-dialog button { display: block; background: transparent; }
-.qr-dialog img { width: min(330px, calc(100dvh - 32px)); aspect-ratio: 1; object-fit: contain; }
+.qr-dialog .qr-ampliado { width: min(330px, calc(100dvh - 32px), calc(100vw - 32px)); aspect-ratio: 1; }
